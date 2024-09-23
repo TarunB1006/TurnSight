@@ -2,7 +2,7 @@
 ## Team "GetFined"
 Winners of the Phase 1 of The Bengaluru Mobility Challenge <br/>
 <br/>
-Members: Sundarakrishnan N, Sohan Varier, Tarun Bhupathi, Manaswini SK of RV College of Engineering
+Members: Tarun Bhupathi, Sundarakrishnan N, Sohan Varier, Manaswini SK of RV College of Engineering
 
 More detailed explainations can be found in the report: [Link](https://drive.google.com/file/d/1YZztqHRN1J5TLh3QNKnYMgrsRQ3Dhf7d/view?usp=drive_link)
 <br/> More details about the event can be found here: [Link](https://dataforpublicgood.org.in/bengaluru-mobility-challenge-2024/)
