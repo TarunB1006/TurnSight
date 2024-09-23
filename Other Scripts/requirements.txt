@@ -1,0 +1,8 @@
+matplotlib==3.7.1
+numpy==2.1.0
+opencv_python==4.10.0.84
+pandas==1.5.3
+pmdarima==2.0.4
+prophet==1.1.5
+scikit_learn==1.0.2
+ultralytics==8.2.58

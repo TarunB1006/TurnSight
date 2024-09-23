@@ -1,0 +1,6 @@
+opencv_python_headless==4.10.0.84
+pandas==2.2.2
+pmdarima==2.0.4
+Shapely==2.0.6
+statsmodels==0.14.2
+ultralytics==8.2.81
