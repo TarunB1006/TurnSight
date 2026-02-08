@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚗 TurnSight
+# TurnSight
 
 ### Vehicle Tracking across Turns and Junctions
 
