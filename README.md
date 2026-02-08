@@ -25,7 +25,7 @@
 | **Tarun Bhupathi** | Team Lead & Developer |
 | **Sundarakrishnan N** | ML Engineer |
 | **Sohan Varier** | Computer Vision Engineer |
-| **Manaswini SK** | Data Scientist |
+| **Manaswini Simhadri Kavali** | Data Scientist |
 
 ---
 
@@ -279,12 +279,12 @@ docker run --rm \
 | Component | Minimum Specification |
 |-----------|----------------------|
 | **CPU** | Intel Core i5 or equivalent |
-| **GPU** | NVIDIA GTX 1650 (1GB VRAM) |
+| **GPU** | NVIDIA GTX 1650 (4GB VRAM) |
 | **RAM** | 8 GB |
 | **Storage** | 10 GB free space |
 | **OS** | Linux / Windows / macOS |
 
-> **GPU Memory Usage:** ~1GB for real-time inference
+> **GPU Memory Usage:** ~1GB VRAM required for real-time inference
 
 ---
 
