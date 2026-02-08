@@ -1,118 +1,306 @@
-# [The Bengaluru Mobility Challenge, 2024](https://ieee-dataport.org/competitions/bengaluru-mobility-challenge-2024)
-## Team "GetFined"
-Winners of the Phase 1 of The Bengaluru Mobility Challenge <br/>
-<br/>
-Members: Tarun Bhupathi, Sundarakrishnan N, Sohan Varier, Manaswini SK of RV College of Engineering
+<div align="center">
 
-More detailed explainations can be found in the report: [Link](https://drive.google.com/file/d/1YZztqHRN1J5TLh3QNKnYMgrsRQ3Dhf7d/view?usp=drive_link)
-<br/> More details about the event can be found here: [Link](https://dataforpublicgood.org.in/bengaluru-mobility-challenge-2024/)
+# 🚗 TurnSight
 
-### Problem Statement:
-The participants in this phase will be provided with camera feeds from 23 Safe City cameras in northern Bengaluru, around the IISc campus. The task will be to provide short-term (e.g., 30 minutes into the future) predictions of the vehicle counts (by vehicle type) as well as vehicle turning patterns at certain points and junctions of the road network. The predictions may be at different points different from the locations where the camera feeds are available.
+### Vehicle Tracking across Turns and Junctions
 
+[![Competition](https://img.shields.io/badge/Bengaluru%20Mobility%20Challenge-2024-blue)](https://ieee-dataport.org/competitions/bengaluru-mobility-challenge-2024)
+[![Status](https://img.shields.io/badge/Phase%201-🏆%20Winner-gold)](https://dataforpublicgood.org.in/bengaluru-mobility-challenge-2024/)
+[![Python](https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-00FFFF)](https://github.com/ultralytics/ultralytics)
+[![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![License](https://img.shields.io/badge/License-BSD--3--Clause-green)](./LICENSE)
 
+**🏆 Phase 1 Winners of The Bengaluru Mobility Challenge**
 
-### Scripts and Files
+</div>
 
-#### Program Scripts
-This folder contains all the files needed to run the pipeline
-1. **app.py** : The main driver code that has to be run. Takes an input JSON file and output JSON file as CLI arguments that provide the video paths and the path to the final output counts. 
+---
 
-2. **best.pt** : The most important file, our trained YOLOv8 model to detect the 7 classes of vehicles.
+## 👥 Team "GetFined"
 
-3. **config.py** : This file contains a dictionary of the co-ordinates of the turning pattern detection boxes required for each camera location/junction.
+**RV College of Engineering**
 
-4. **outputTemplate.py** : Here, the output format required by the organisers is stored, which is again a dictionary of every turning pattern possible, for both counts and predictions, which is to be converted and submitted in JSON format.
+| Member | Role |
+|--------|------|
+| Tarun Bhupathi | Team Member |
+| Sundarakrishnan N | Team Member |
+| Sohan Varier | Team Member |
+| Manaswini SK | Team Member |
 
-5. **customCounter.py** : An *ultralytics* source code for creating a counter object that we modified based on our requirements.
+📄 **[Detailed Report](https://drive.google.com/file/d/1YZztqHRN1J5TLh3QNKnYMgrsRQ3Dhf7d/view?usp=drive_link)** | 🌐 **[Event Details](https://dataforpublicgood.org.in/bengaluru-mobility-challenge-2024/)**
 
-6. **video_processor.py** : This file houses the *VideoProcessor* class that does the video processing to detect, track and count the turns made by the various classes of vehicles. 
+---
 
-7. **forecasting.py** : The *Forecaster* class is located here, which uses the count data collected while counting, to produce a prediction of the turn counts for the future. Preprocessing of the data logged onto the excel also takes place here.
+## 📑 Table of Contents
 
-8. **output_handler.py** : Just a simple script to process the derived outputs into the dictionary defined by *outputTemplate.py*.
+- [About](#-about)
+- [Tech Stack](#-tech-stack)
+- [Problem Statement](#-problem-statement)
+- [Pipeline Architecture](#-pipeline-architecture)
+- [Quick Start](#-quick-start)
+- [Scripts and Files](#-scripts-and-files)
+- [Requirements](#-requirements)
+- [Docker](#-docker)
+- [System Requirements](#-system-requirements)
+- [Open-Source Tools](#-open-source-tools)
+- [Citation](#-citation)
 
-Only *app.py* is supposed to be run, the other files cannot run on their own.\
-Command to run: `python3 app.py input.json output.json`\
-Format for *input.json*:
+---
+
+## 🎯 About
+
+TurnSight is an advanced vehicle tracking and prediction system that analyzes traffic patterns at road junctions using computer vision and machine learning. Built for the Bengaluru Mobility Challenge 2024, this solution provides real-time vehicle detection, tracking across turns, and short-term traffic forecasting.
+
+---
+
+## 🛠 Tech Stack
+
+<div align="center">
+
+| Technology | Purpose |
+|------------|---------|
+| ![YOLOv8](https://img.shields.io/badge/YOLOv8-00FFFF?style=for-the-badge) | Real-time Object Detection |
+| ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) | Core Programming Language |
+| ![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white) | Video Processing |
+| ![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white) | Data Analysis |
+| ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white) | Containerization |
+| ![CUDA](https://img.shields.io/badge/CUDA-76B900?style=for-the-badge&logo=nvidia&logoColor=white) | GPU Acceleration |
+
+</div>
+
+---
+
+## 📋 Problem Statement
+
+The Bengaluru Mobility Challenge Phase 1 required participants to analyze camera feeds from **23 Safe City cameras** in northern Bengaluru (around IISc campus) and provide:
+
+- **Short-term predictions** (30 minutes into the future) of vehicle counts by type
+- **Vehicle turning patterns** at junctions and key points
+- **Predictions at locations** different from camera feed locations
+
+---
+
+## 🔄 Pipeline Architecture
+
+```mermaid
+graph LR
+    A[📹 Video Input] --> B[🔍 YOLOv8 Detection]
+    B --> C[🎯 Object Tracking]
+    C --> D[📊 Turn Counting]
+    D --> E[📈 ARIMA Forecasting]
+    E --> F[💾 JSON Output]
+    
+    style A fill:#e1f5ff
+    style B fill:#fff4e1
+    style C fill:#ffe1f5
+    style D fill:#e1ffe1
+    style E fill:#f5e1ff
+    style F fill:#ffe1e1
 ```
+
+**Workflow:**
+1. **Input**: Video feeds from traffic cameras
+2. **Detection**: YOLOv8 identifies 7 vehicle classes
+3. **Tracking**: Custom counter tracks vehicles across frames
+4. **Counting**: Turning patterns counted at junctions
+5. **Forecasting**: ARIMA model predicts future counts
+6. **Output**: Structured JSON with counts and predictions
+
+---
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+# Install dependencies
+pip3 install -r requirements.txt
+```
+
+### Usage
+
+```bash
+python3 app.py input.json output.json
+```
+
+### Input Format
+
+```json
 {
-   "Cam_ID": 
-    {
-        "Vid_1": "/app/data/Cam_ID_vid_1.mp4",
-        "Vid_2": "/app/data/Cam_ID_1_vid_2.mp4"
-    }
+   "Cam_ID": {
+       "Vid_1": "/app/data/Cam_ID_vid_1.mp4",
+       "Vid_2": "/app/data/Cam_ID_1_vid_2.mp4"
+   }
 }
 ```
 
-#### Other Scripts
-These are some other scripts used to ease the process of trainng and development but is not needed to run the framework.
-1. **extract_images.py** : We used this script to extract images from the video downloaded from the dataset every *n* frames which we can set based on the number of images required.
+---
 
-2. **auto_annotate.py** : After making a basic model, we ran the extracted images through the model to annotate the images for us, and we would verify/edit the annotations. This script automated the annotation process and saved us a lot of time.
+## 📂 Scripts and Files
 
-3. **data_split.py** : A simple script to split the images dataset into training, testing and validation sets.
+### Core Program Scripts
 
-4. **stream.py** : This code lets us view the YOLO model in action on a live video. It shows us the predictions being made in real-time in the video.
+| Script | Description |
+|--------|-------------|
+| **app.py** | 🎯 Main driver code - entry point for the pipeline |
+| **best.pt** | 🤖 Trained YOLOv8 model for 7 vehicle classes |
+| **config.py** | ⚙️ Junction coordinates and detection box configurations |
+| **outputTemplate.py** | 📄 Output format template for submission |
+| **customCounter.py** | 🔢 Modified Ultralytics counter for custom tracking |
+| **video_processor.py** | 🎬 VideoProcessor class for detection, tracking & counting |
+| **forecasting.py** | 📈 Forecaster class with ARIMA prediction model |
+| **output_handler.py** | 💾 Output processing and JSON formatting |
 
-5. **capture_coordinates.py** : This script allowed us to simplify the process of creating the turn count boxes at the junctions. We simply opened the screenshot of the junction provided by the organisers and clicked on the corners of the box, and the pixel values are automatically logged.
+> **Note:** Only `app.py` should be run directly. Other files are dependencies.
 
-6. **view.py** : Code that lets us view the turning boxes created against the actual images of the junction for easier interpretation. 
+### Development & Utility Scripts
 
-7. **data.yaml** : This file is used to specify dataset location during training, and holds the list of classes.
+<details>
+<summary>Click to expand utility scripts</summary>
 
-8. **predict_arima.py** : The script to test various forecasting models and methods using ARIMA, by tuning parameters, using different types of datasets etc.
+| Script | Purpose |
+|--------|---------|
+| **extract_images.py** | Extract frames from videos for training |
+| **auto_annotate.py** | Automated annotation using base model |
+| **data_split.py** | Split dataset into train/test/validation |
+| **stream.py** | Real-time YOLO prediction visualization |
+| **capture_coordinates.py** | Interactive tool for junction box creation |
+| **view.py** | Visualize turning boxes on junction images |
+| **data.yaml** | Dataset configuration and class definitions |
+| **predict_arima.py** | ARIMA model testing and parameter tuning |
+| **data_combine.py** | Merge annotated datasets from team members |
 
-9. **data_combine.py** : A simple script to combine the annotated image folders by all the team members.
+</details>
 
-### requirements.txt
+---
 
-#### Requirements for Program Codes
+## 📦 Requirements
 
-1. **opencv_python_headless** *4.10.0.84* : Used to read and extract content from the video files.
+### Core Dependencies
 
-2. **ultralytics** *8.2.58* : The library that contains YOLOv8, the model we used for vehicle detection and counting.
+| Package | Version | Purpose |
+|---------|---------|---------|
+| **opencv-python-headless** | 4.10.0.84 | Video file processing |
+| **ultralytics** | 8.2.58 | YOLOv8 detection framework |
+| **pandas** | 1.5.3 | Data structure and analysis |
+| **pmdarima** | 2.0.4 | Auto-ARIMA forecasting |
+| **Shapely** | 2.0.6 | Geometric operations (Ultralytics dependency) |
+| **statsmodels** | 0.14.2 | Statistical modeling and smoothing |
 
-3. **pandas** *1.5.3* : The basic data structure used throughout the project, pandas dataframes.
+### Development Dependencies
 
-4. **pmdarima** *2.0.4* : Library that contains the *auto_arima* forecasting model.
+<details>
+<summary>Additional packages for development scripts</summary>
 
-5. **Shapely** *2.0.6* : A dependency of *ultrlytics'* *ObjectCounter* class.
+| Package | Version | Purpose |
+|---------|---------|---------|
+| **matplotlib** | 3.7.1 | Plotting and visualization |
+| **numpy** | 2.1.0 | Array operations |
+| **prophet** | 1.1.5 | Facebook's forecasting tool |
+| **scikit-learn** | 1.0.2 | ML utilities and data splitting |
+| **opencv-python** | 4.10.0.84 | Video display and processing |
 
-6. **statsmodels** *0.14.2* : Library that contains various statistical forecasting and data smoothening methods that we tried. 
+</details>
 
-Run `pip3 install -r requirements.txt` in the Program Scripts folder to install all the dependencies.
-#### Extra requirements for Other Scripts
+### Installation
 
-1. **matplotlib** *3.7.1* : A library used to make plots and charts in python.
+```bash
+pip3 install -r requirements.txt
+```
 
-2. **numpy** *2.1.0* : Allows for creation and ease of manipulation on multi-dimensonal arrays in python.
+---
 
-3. **prophet** *1.1.5* : A forecasting procedure implemented by Facebook. We tried using this model for forecasting.
+## 🐳 Docker
 
-4. **scikit_learn** *1.0.2*: Open source machine learning library for python, that contains various tools for data preparation, machine learning models etc. We used its *train_test_split* class to split the data into training and testing sets.
+The project includes a Dockerfile with CUDA support for GPU acceleration.
 
-5. **opencv_python** *4.10.0.84* : Used to read and extract content from the video files and also display them.
+### Build Image
 
-### Open-Source Material
+```bash
+docker build -t username/turnsight:latest .
+```
 
-**YOLOv8** by *Ultralyitcs* is an open source, real-time object detection and image segmentation model.
+### Push to Registry
 
-**labelimg** is an annotation tool that provides features to draw and edit bounding boxes in the format required by YOLOv8.
+```bash
+docker push username/turnsight:latest
+```
 
-### Docker
-A Dockerfile has been created to install necessary libraries including CUDA for the model to be able to use GPUs. The docker file can be built and run in a simple way.\
-Build: `docker build -t username/imagename:version`\
-Push: `docker push  username/imagename:version`\
-Run: `docker run --rm --runtime=nvidia --gpus all -v 'YOUR STORAGE MOUNT':/app/data username/imagename:version python3 app.py input.json output.json`
+### Run Container
 
-The run command takes the input and output json file to read,process ands save the results in. Build creates the docker container and push command is used to push it to the docker repository so that anyone can pull the image and run the same.
+```bash
+docker run --rm --runtime=nvidia --gpus all \
+  -v '/path/to/data':/app/data \
+  username/turnsight:latest \
+  python3 app.py input.json output.json
+```
 
-### System Requirements
+> The container automatically handles GPU access and mounts your data directory.
 
-- CPU - Core i5
-- GPU - NVIDIA GTX 1650
-- RAM - 8 GB
-- SATA - 10 GB
-- Around 1GB of GPU memory would be used for realtime inference.
+---
 
+## 💻 System Requirements
+
+| Component | Minimum Specification |
+|-----------|----------------------|
+| **CPU** | Intel Core i5 or equivalent |
+| **GPU** | NVIDIA GTX 1650 (1GB VRAM for inference) |
+| **RAM** | 8 GB |
+| **Storage** | 10 GB available space |
+| **OS** | Linux/Windows with Docker support |
+
+> **Note:** GPU is recommended for real-time performance. CPU-only mode is supported but slower.
+
+---
+
+## 🌟 Open-Source Tools
+
+This project is built on excellent open-source software:
+
+- **[YOLOv8](https://github.com/ultralytics/ultralytics)** by Ultralytics - Real-time object detection and image segmentation
+- **[LabelImg](https://github.com/heartexlabs/labelImg)** - Annotation tool for bounding boxes in YOLO format
+
+---
+
+## 📚 Citation
+
+If you use this project in your research or work, please cite:
+
+```bibtex
+@ARTICLE{10830516,
+  author={Narayanan, Sundarakrishnan and Varier, Sohan and Bhupathi, Tarun and Simhadri Kavali, Manaswini and Mohana and Ramakanth Kumar, P. and Sreelakshmi, K.},
+  journal={IEEE Access}, 
+  title={Vehicle Turn Pattern Counting and Short Term Forecasting Using Deep Learning for Urban Traffic Management System}, 
+  year={2025},
+  volume={13},
+  number={},
+  pages={8585-8593},
+  keywords={Urban areas;Predictive models;Turning;Roads;Forecasting;Cameras;Accuracy;Tracking;Real-time systems;Adaptation models;Auto-ARIMA;deep learning;object tracking;time-series analysis;traffic forecasting;YOLOv8;urban traffic management;vehicle turn pattern counting},
+  doi={10.1109/ACCESS.2025.3526880}}
+```
+
+See [CITATION.cff](./CITATION.cff) for more details.
+
+---
+
+## 📄 License
+
+This project is licensed under the BSD 3-Clause License - see the [LICENSE](./LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- **Bengaluru Mobility Challenge 2024** organizers
+- **Data for Public Good** initiative
+- **IEEE DataPort** for hosting the competition
+- **RV College of Engineering** for support and resources
+
+---
+
+<div align="center">
+
+[Competition](https://ieee-dataport.org/competitions/bengaluru-mobility-challenge-2024) • [Report](https://drive.google.com/file/d/1YZztqHRN1J5TLh3QNKnYMgrsRQ3Dhf7d/view?usp=drive_link) • [Event Details](https://dataforpublicgood.org.in/bengaluru-mobility-challenge-2024/)
+
+</div>
