@@ -307,9 +307,11 @@ If you use this software in your research or project, please cite it as:
   title = {Phase1-BMC-GetFined},
   version = {1.0.0},
   date = {2024-09-23},
-  url = {https://github.com/SundarakrishnanN/Phase1-BMC}
+  url = {https://github.com/TarunB1006/TurnSight}
 }
 ```
+
+> **Note:** This repository was originally published as Phase1-BMC and is now maintained as TurnSight.
 
 ---
 
